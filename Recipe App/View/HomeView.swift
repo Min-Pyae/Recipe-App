@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @ObservedObject var recipeViewModel: RecipeViewModel = RecipeViewModel()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            
+            // FAMOUS RECIPES TITLE
+            Text("Famous Recipes")
+            
+            // FAMOUS RECIPES
+            FamousRecipesView(recipes: recipeViewModel.recipes)
+            
+            // ALL RECIPES
         }
-        .padding()
+       
     }
 }
 
