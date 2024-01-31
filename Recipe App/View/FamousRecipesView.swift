@@ -17,8 +17,8 @@ struct FamousRecipesView: View {
             
             LazyHStack {
                 
-                ForEach(recipes) { recipe in
-                    FamousRecipeCard(recipe: recipe)
+                ForEach(recipes.shuffled()) { recipe in
+                    RecipeCard(recipe: recipe)
                 }
                 
             }

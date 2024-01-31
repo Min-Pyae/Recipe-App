@@ -11,16 +11,54 @@ struct HomeView: View {
     
     @ObservedObject var recipeViewModel: RecipeViewModel = RecipeViewModel()
     
+    @State var selectedRecipe: Recipe? = nil
+    
     var body: some View {
-        VStack {
+        
+        NavigationView {
             
-            // FAMOUS RECIPES TITLE
-            Text("Famous Recipes")
-            
-            // FAMOUS RECIPES
-            FamousRecipesView(recipes: recipeViewModel.recipes)
-            
-            // ALL RECIPES
+            ScrollView(.vertical) {
+                
+                VStack(alignment: .leading) {
+                    
+                    // FAMOUS RECIPES TITLE
+                    Text("Famous Recipes")
+                        .font(.title3)
+                        .bold()
+                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                    
+                    // FAMOUS RECIPES
+                    FamousRecipesView(recipes: recipeViewModel.recipes)
+                    
+                    // ALL RECIPES
+                    LazyVStack(alignment: .leading) {
+                        // FAMOUS RECIPES TITLE
+                        Text("All Recipes")
+                            .font(.title3)
+                            .bold()
+                            .padding([.leading, .top])
+                        
+                        ForEach(recipeViewModel.recipes) { recipe in
+                            RecipeCard(recipe: recipe)
+                                .onTapGesture {
+                                    selectedRecipe = recipe
+                                }
+                        }
+                        .padding(.horizontal)
+                        
+                    }
+                    .padding(.vertical)
+                    .background(.ultraThickMaterial)
+                    .fullScreenCover(item: $selectedRecipe) { recipe in
+                        
+                        RecipeDetailView(recipe: recipe)
+
+                    }
+                    
+                }
+                .navigationTitle("Recipes")
+            }
         }
        
     }
